@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row m-5">
+    <h1>Restaurants <span><%= link_to 'Register New Restaurant', new_restaurant_path, class: 'btn btn-primary float-end' if current_user.admin? %></span> </h1>
+  </div>
+  <div class="row m-3">
+    <%= form_tag restaurants_path, method: :get, class: "mb-3" do %>
+      <div class="input-group">
+        <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "Search by dish..." %>
+        <div class="input-group-append">
+          <%= submit_tag "Search", class: "btn btn-primary ms-3" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="row m-3">
+    <% @restaurants.each do |restaurant| %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= restaurant.name %> 
+            <span class="text-muted">
+              (<%= restaurant.reviews.average(:rating).to_f.round(1).to_s + ' ' + ('*' * restaurant.reviews.average(:rating).to_f.round(1)) %>)
+            </span>
+            <span class="text-muted">(<%= (restaurant.status == 'open' ? "<span class='text-warning'>Open Now</span>" : "<span class='text-secondary'>Closed</span>").html_safe %>)</span>
+          </h5>
+          <% if current_user.admin? %>
+            <p class="float-end"><%= link_to restaurant.status == 'open' ? 'Close' : 'Open', change_status_restaurant_path(restaurant), method: :patch, class: restaurant.status == 'open' ? 'btn btn-secondary': 'btn btn-success' %></p>
+          <% end %>
+          <p class="card-text"><%= restaurant.address %></p>
+          <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_<%= restaurant.id %>">
+            View Reviews
+          </button>
+          <a class="btn btn-secondary" href="<%= restaurant_dishes_path(restaurant) %>">View Dishes</a>
+        </div>
+        <div id="collapse_<%= restaurant.id %>" class="collapse">
+          <div class="card card-body">
+            <% restaurant.reviews.each do |review| %>
+              <p>Rating: <%= review.rating %></p>
+              <p>Author: <%= review.author_name %></p>
+              <p>Content: <%= review.content %></p>
+              <hr>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

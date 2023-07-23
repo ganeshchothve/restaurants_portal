@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row m-3">
+    <h1><%= @restaurant.present? ? "Dishes for #{@restaurant.name}" : "All Dishes" %><span><%= link_to 'Add New Dish', new_dish_path, class: 'btn btn-primary float-end' if current_user.admin? %></span></h1>
+  </div>
+
+  <% @dishes.each do |dish| %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">
+          <%= dish.name %> 
+          <span class="text-muted">
+            (<%= dish.reviews.average(:rating).to_f.round(1) %>)
+          </span>
+        </h5>
+        <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_<%= dish.id %>">
+          View Reviews
+        </button>
+      </div>
+      <div id="collapse_<%= dish.id %>" class="collapse">
+        <div class="card card-body">
+          <% dish.reviews.each do |review| %>
+            <p>Rating: <%= review.rating %></p>
+            <p>Author: <%= review.author_name %></p>
+            <p>Content: <%= review.content %></p>
+            <hr>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

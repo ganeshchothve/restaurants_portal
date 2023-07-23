@@ -1,0 +1,8 @@
+<div class="container">
+  <h1><%= @dish.name %> Reviews</h1>
+  <select class="form-select">
+    <% @dish.reviews.each do |review| %>
+      <option><%= review.content %></option>
+    <% end %>
+  </select>
+</div>

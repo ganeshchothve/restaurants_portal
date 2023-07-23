@@ -1,24 +1,19 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A sample App Convering Multiple Restaurants Portal
 
-Things you may want to cover:
+- video working demo
 
-* Ruby version
+file:///home/ganesh/Videos/Screencasts/Screencast%20from%2024-07-23%2005:20:22%20AM%20IST.webm
 
-* System dependencies
 
-* Configuration
+* Ruby version - 2.7.7
+* Rails version - 7.0.6
+* sidekiq - 6.5
+* pg - 1.1
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- clone repo
+- bundle
+- rails s
+- sidekiq
+  
